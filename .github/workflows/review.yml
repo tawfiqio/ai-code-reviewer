@@ -1,0 +1,15 @@
+name: AI PR Reviewer
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Webhook
+        run: |
+          curl -X POST ${{ secrets.REVIEW_WEBHOOK_URL }} \
+            -H "Content-Type: application/json" \
+            -d "${{ toJson(github.event) }}"
